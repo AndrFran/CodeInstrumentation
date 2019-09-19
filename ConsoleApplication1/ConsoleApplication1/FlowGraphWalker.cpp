@@ -16,6 +16,11 @@ namespace WpfApplication2
 
 		for (auto node : nodes)
 		{
+			if (node == NULL)
+			{
+				printf("Node NULL is observed Parsing is Incomplete");
+				continue;
+			}
 		     switch (node->getNodeType())
 			{
 				case NodeType::E_FOR:

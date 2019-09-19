@@ -17,7 +17,7 @@ using namespace rapidjson;
 using namespace WpfApplication2;
 int main()
 {
-	FILE* fp = fopen("C:\\Users\\andre\\source\\repos\\ConsoleApplication1\\Debug\\out.json", "r"); // non-Windows use "r"
+	FILE* fp = fopen("C:\\Users\\oleksandr.kovbasiuk\\Downloads\\out.json", "r"); // non-Windows use "r"
 	if (fp == NULL)
 		printf("Error opening file unexist.ent: %s\n", strerror(errno));
 	char readBuffer[65536];

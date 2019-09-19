@@ -98,9 +98,10 @@ int SyntaxTree::Id = 0;
 
 		func->setreturntype(static_cast<DeclNode*>(ParseDeclaration(type)));
 
-		
+		// get function body set
 		Value & a = (this->functions[id]["body"]).GetObject()["block_items"];
 		assert(a.IsArray());
+		// recursive parse function body
 		for (auto& v : a.GetArray())
 		{
 			func->getnodes()->push_back(ParseNode(v));
@@ -113,13 +114,16 @@ int SyntaxTree::Id = 0;
 		}
 		Value & tmp = ((this->functions[id]["decl"]).GetObject()["type"]).GetObject()["args"];
 
-		if (tmp.HasMember("params"))
+		if (!tmp.IsNull())
 		{
-			Value & prameters = tmp["params"];
-			assert(prameters.IsArray());
-			for (auto& v : prameters.GetArray())
+			if (tmp.HasMember("params"))
 			{
-				func->AddParam(static_cast<DeclNode*>(ParseDeclaration(v)));
+				Value & prameters = tmp["params"];
+				assert(prameters.IsArray());
+				for (auto& v : prameters.GetArray())
+				{
+					func->AddParam(static_cast<DeclNode*>(ParseDeclaration(v)));
+				}
 			}
 		}
 		ParsedFunctions.push_back(func);
@@ -136,7 +140,7 @@ int SyntaxTree::Id = 0;
 		{
 			node = ParseDeclaration(item);
 		}
-		if (std::string("FuncCal") == NodeType_Renamed)
+		if (std::string("FuncCall") == NodeType_Renamed)
 		{
 			node = ParseFuncCall(item);
 		}
@@ -497,7 +501,7 @@ int SyntaxTree::Id = 0;
 	FlowGraphNode *SyntaxTree::ParseReturn(ValueCopibable item)
 	{
 		ReturnNode *node = new ReturnNode(Id++);
-		if (item["expr"].MemberCount()>0)
+		if (!item["expr"].IsNull())
 		{
 		node->expr = ParseNode(((item["expr"])));
 		}
@@ -511,7 +515,7 @@ int SyntaxTree::Id = 0;
 		std::vector<FlowGraphNode*> right = std::vector<FlowGraphNode*>();
 		ValueCopibable leftarr = (item["iffalse"]);
 		ValueCopibable rightarr = (item["iftrue"]);
-		if (leftarr.MemberCount() > 0)
+		if (!leftarr.IsNull())
 		{
 //C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
 			if (std::string("Compound") == leftarr["_nodetype"].GetString())
@@ -530,7 +534,7 @@ int SyntaxTree::Id = 0;
 				left.push_back(ParseNode(leftarr));
 			}
 		}
-		if (rightarr.MemberCount() > 0)
+		if (!rightarr.IsNull())
 		{
 //C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
 			if (std::string("Compound") == rightarr["_nodetype"].GetString())
@@ -565,7 +569,7 @@ int SyntaxTree::Id = 0;
 		WhileNode *node = new WhileNode(Id++);
 		std::vector<FlowGraphNode*> stmt = std::vector<FlowGraphNode*>();
 		ValueCopibable leftarr = item["stmt"];
-		if (leftarr.MemberCount() > 0)
+		if (!leftarr.IsNull())
 		{
 //C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
 			if (std::string("Compound") == leftarr["_nodetype"].GetString())
@@ -595,7 +599,7 @@ int SyntaxTree::Id = 0;
 		ForNode *node = new ForNode(Id++);
 		std::vector<FlowGraphNode*> stmt = std::vector<FlowGraphNode*>();
 		ValueCopibable leftarr =(item["stmt"]);
-		if (leftarr.MemberCount() > 0)
+		if (!leftarr.IsNull())
 		{
 //C# TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'ToString':
 			if (std::string("Compound") == leftarr["_nodetype"].GetString())
@@ -616,15 +620,15 @@ int SyntaxTree::Id = 0;
 		}
 
 		node->setloop(stmt);
-			if (item["cond"].MemberCount() > 0)
+			if (!item["cond"].IsNull())
 			{
 		node->setcondition(ParseNode((item["cond"])));
 			}
-			if (item["init"].MemberCount() > 0)
+			if (!item["init"].IsNull())
 			{
 				node->setinit(ParseNode((item["init"])));
 			}
-			if (item["next"].MemberCount() > 0)
+			if (!item["next"].IsNull())
 			{
 				node->setnext(ParseNode((item["next"])));
 			}
