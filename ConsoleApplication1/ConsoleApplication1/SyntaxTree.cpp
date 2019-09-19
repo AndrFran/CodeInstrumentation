@@ -216,6 +216,17 @@ int SyntaxTree::Id = 0;
 		{
 			node = ParseTypeDeclIdentifierType(item);
 		}
+
+		if (node != nullptr && !item.IsNull())
+		{
+			if (item.HasMember("coord"))
+			{
+				if (item["coord"].IsString())
+				{
+					node->setNodeLocation(item["coord"].GetString());
+				}
+			}
+		}
 		return node;
 	}
 

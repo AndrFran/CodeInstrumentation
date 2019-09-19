@@ -38,6 +38,11 @@ namespace WpfApplication2
 		virtual void setNodeType(NodeType type) = 0;
 		virtual int getId() = 0;
 		virtual std::string ToString() = 0;
+		virtual void setNodeLocation(const std::string rStr);
+		virtual std::string getNodeLocation() const;
+
+	protected:
+		std::string strNodeLocation;
 	};
 
 	class OperationNode : public FlowGraphNode

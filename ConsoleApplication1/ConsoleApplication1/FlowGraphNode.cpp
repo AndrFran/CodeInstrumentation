@@ -5,6 +5,16 @@
 namespace WpfApplication2
 {
 
+	void FlowGraphNode::setNodeLocation(const std::string rStr)
+	{
+		strNodeLocation = rStr;
+	}
+
+	std::string FlowGraphNode::getNodeLocation() const
+	{
+		return strNodeLocation;
+	}
+
 	FlowGraphNode* OperationNode::getleft()
 	{
 		return privateleft;
