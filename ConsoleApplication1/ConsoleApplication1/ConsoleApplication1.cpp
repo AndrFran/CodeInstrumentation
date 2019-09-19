@@ -15,9 +15,10 @@
 #include "TestCaseBuilder.h"
 using namespace rapidjson;
 using namespace WpfApplication2;
-int main()
+
+int main(int argc, char** argv)
 {
-	FILE* fp = fopen("C:\\Users\\oleksandr.kovbasiuk\\Downloads\\out.json", "r"); // non-Windows use "r"
+	FILE* fp = fopen(argv[FILE_NAME], "r"); // non-Windows use "r"
 	if (fp == NULL)
 		printf("Error opening file unexist.ent: %s\n", strerror(errno));
 	char readBuffer[65536];
@@ -39,10 +40,6 @@ int main()
 	{
 		builder.GenerateCases(funcs[i], tree.getGlobalScope());
 	}
-	std::vector<ValueCopibable> vect = std::vector<ValueCopibable>();
-	vect.push_back(d["ext"]);
-	const Value& a = d["ext"];
-	assert(a.IsArray());
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

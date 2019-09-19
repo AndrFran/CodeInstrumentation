@@ -11,4 +11,12 @@
 
 // TODO: add headers that you want to pre-compile here
 
+// @name    CmdArguments
+// @brief   to define command line arguments in input array
+typedef enum  cmd_args
+{
+	FILE_NAME = 1,
+
+} CmdArguments;
+
 #endif //PCH_H
